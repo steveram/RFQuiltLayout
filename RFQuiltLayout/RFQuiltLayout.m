@@ -370,9 +370,9 @@
     CGSize elementSize = [self getBlockSizeForItemAtIndexPath:path];
     
     if (isVert) {
-        float initialPaddingForContraintedDimension = (self.collectionView.frame.size.width - [self restrictedDimensionBlockSize]*self.blockPixels.width)/ 2;
+        float initialPaddingForContraintedDimension = 6.0;
         return CGRectMake(position.x*self.blockPixels.width + initialPaddingForContraintedDimension,
-                          position.y*self.blockPixels.height,
+                          position.y*self.blockPixels.height + initialPaddingForContraintedDimension,
                           elementSize.width*self.blockPixels.width,
                           elementSize.height*self.blockPixels.height);
     } else {
