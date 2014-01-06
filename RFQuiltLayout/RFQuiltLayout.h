@@ -25,4 +25,6 @@
 // improve scrolling speed, at the cost of time at the beginning
 @property (nonatomic) BOOL prelayoutEverything;
 
+@property (nonatomic, assign) CGFloat leftTopMargin;
+
 @end

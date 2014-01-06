@@ -31,6 +31,8 @@
 // remember the last indexpath placed, as to not
 // relayout the same indexpaths while scrolling
 @property(nonatomic) NSIndexPath* lastIndexPathPlaced;
+
+@property (nonatomic, assign) BOOL hasCustomMargin;
 @end
 
 
@@ -370,20 +372,27 @@
     CGSize elementSize = [self getBlockSizeForItemAtIndexPath:path];
     
     if (isVert) {
-        float initialPaddingForContraintedDimension = 6.0;
-        return CGRectMake(position.x*self.blockPixels.width + initialPaddingForContraintedDimension,
-                          position.y*self.blockPixels.height + initialPaddingForContraintedDimension,
+        return CGRectMake(position.x*self.blockPixels.width + [self initialPadding],
+                          position.y*self.blockPixels.height + [self initialPadding],
                           elementSize.width*self.blockPixels.width,
                           elementSize.height*self.blockPixels.height);
     } else {
-        float initialPaddingForContraintedDimension = (self.collectionView.frame.size.height - [self restrictedDimensionBlockSize]*self.blockPixels.height)/ 2;
         return CGRectMake(position.x*self.blockPixels.width,
-                          position.y*self.blockPixels.height + initialPaddingForContraintedDimension,
+                          position.y*self.blockPixels.height + [self initialPadding],
                           elementSize.width*self.blockPixels.width,
                           elementSize.height*self.blockPixels.height);
     }
 }
 
+- (CGFloat)initialPadding {
+    if (self.hasCustomMargin) return self.leftTopMargin;
+    return (self.collectionView.frame.size.width - [self restrictedDimensionBlockSize]*self.blockPixels.width)/ 2;
+}
+
+- (void)setLeftTopMargin:(CGFloat)leftTopMargin {
+    _leftTopMargin = leftTopMargin;
+    self.hasCustomMargin = YES;
+}
 
 //This method is prefixed with get because it may return its value indirectly
 - (CGSize)getBlockSizeForItemAtIndexPath:(NSIndexPath *)indexPath
